@@ -13,6 +13,14 @@ public class Map implements IPositionChangeObserver{
         objects = new TreeMap<>();
     }
 
+    public LinkedList<AbstractGameObject> getObjectsBetween(double fromy, double toy){
+        LinkedList<AbstractGameObject> list = new LinkedList<>();
+        objects.tailMap(new Vector2D(-1000, fromy)).headMap(new Vector2D(1000, toy));
+        objects.values().forEach(lst -> {
+            list.addAll(lst);
+        });
+        return list;
+    }
 
     public void addObject(AbstractGameObject object){
         Vector2D pos = object.getPosition();

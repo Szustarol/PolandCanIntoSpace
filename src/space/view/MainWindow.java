@@ -1,5 +1,6 @@
 package space.view;
 
+import space.status.Runner;
 import space.view.panels.GamePanel;
 import space.view.panels.UpgradesPanel;
 
@@ -17,6 +18,8 @@ public class MainWindow extends JFrame {
         gamePanel = new GamePanel();
         add(upgradesPanel, BorderLayout.LINE_START);
         add(gamePanel, BorderLayout.CENTER);
+
+        gamePanel.setVisible(true);
     }
 
     private void initControls(){
@@ -27,6 +30,9 @@ public class MainWindow extends JFrame {
         setTitle(title);
         initPanelsAndLayout();
         initControls();
+
+        gamePanel.setRunner(new Runner());
+        gamePanel.repaint();
     }
 
 }
