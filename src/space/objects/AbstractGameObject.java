@@ -3,6 +3,7 @@ package space.objects;
 import space.model.BoundingBox;
 import space.model.Vector2D;
 import space.status.IPositionChangeObserver;
+import space.status.Map;
 
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
@@ -49,9 +50,10 @@ public abstract class AbstractGameObject implements Comparable<AbstractGameObjec
 
     }
 
-    public void move(double deltaTime){
+    public void move(double deltaTime, Map map){
         Vector2D prevPos = new Vector2D(position);
-        position.add(velocity.scalarMul(deltaTime));
+        position = position.add(velocity.scalarMul(deltaTime));
+        position = map.targetPositionMapping(position);
         if(observers != null){
             observers.forEach(observer -> {
                 observer.positionChanged(this, prevPos, position);

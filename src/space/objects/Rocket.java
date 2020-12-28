@@ -24,7 +24,7 @@ public class Rocket extends AbstractGameObject {
 
     public void applyDrag(double deltaTime){
         double coef = 0.2; //nose.getcoef, fins.getcoef;
-        double constCoef = 0.1;
+        double constCoef = 4;
         double forceCoef = constCoef*coef;
         double forceX = forceCoef* velocity.x* velocity.x;
         double forceY = forceCoef* velocity.y* velocity.y;
@@ -34,6 +34,7 @@ public class Rocket extends AbstractGameObject {
             forceX *= -1;
         Vector2D dragForce = new Vector2D(forceX, forceY);
         dragForce = dragForce.scalarMul(1/getWeight());
+        System.out.println("velocity/drag:" + velocity + ", " + dragForce.scalarMul(deltaTime));
         velocity = velocity.add(dragForce.scalarMul(deltaTime));
     }
 

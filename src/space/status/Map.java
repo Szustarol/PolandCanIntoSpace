@@ -9,9 +9,25 @@ import java.util.TreeMap;
 public class Map implements IPositionChangeObserver{
     private TreeMap<Vector2D, LinkedList<AbstractGameObject>> objects;
 
-    public Map(){
+    private double mapWidth = 2000;
+
+    public Map(double mapWidth){
         objects = new TreeMap<>();
+        this.mapWidth = mapWidth;
     }
+
+
+    public Vector2D targetPositionMapping(Vector2D position){
+        while(position.x > mapWidth/2){
+            position = position.add(new Vector2D(-mapWidth, 0));
+        }
+
+        while(position.x < mapWidth/2){
+            position = position.add(new Vector2D(mapWidth, 0));
+        }
+        return  position;
+    }
+
 
     public LinkedList<AbstractGameObject> getObjectsBetween(double fromy, double toy){
         LinkedList<AbstractGameObject> list = new LinkedList<>();
