@@ -3,20 +3,19 @@ package space.objects;
 import space.model.BoundingBox;
 import space.model.Vector2D;
 import space.objects.rocketParts.Engine;
+import space.objects.rocketParts.FuelTank;
 import space.objects.rocketParts.Hull;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.nio.Buffer;
 
+
 public class Rocket extends AbstractGameObject {
 
     private Hull hull;
     private Engine engine;
-
-    private double fuelRemaining;
-
-    private double maxFuel;//change to engine later
+    private FuelTank fuelTank;
 
     private double getWeight(){
         return hull.partWeight() + engine.partWeight();
@@ -34,7 +33,6 @@ public class Rocket extends AbstractGameObject {
             forceX *= -1;
         Vector2D dragForce = new Vector2D(forceX, forceY);
         dragForce = dragForce.scalarMul(1/getWeight());
-        System.out.println("velocity/drag:" + velocity + ", " + dragForce.scalarMul(deltaTime));
         velocity = velocity.add(dragForce.scalarMul(deltaTime));
     }
 
@@ -44,7 +42,7 @@ public class Rocket extends AbstractGameObject {
         BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 
         Graphics g = combined.getGraphics();
-        g.drawImage(engine.getImage(), 0, 0, null);
+        g.drawImage(engine.getImage(), 0, 135, null);
         g.drawImage(hull.getImage(), 0, 0, null);
 
         g.dispose();
@@ -66,16 +64,23 @@ public class Rocket extends AbstractGameObject {
         gameObjectType = GameObjectType.ROCKET;
         hull = new Hull(0);
         engine = new Engine(0);
-        fuelRemaining = 0;
+        fuelTank = new FuelTank(0);
     }
 
     public void addFuel(double fuel){
-        fuelRemaining += fuel;
-        if(fuelRemaining > maxFuel){
-            fuelRemaining = maxFuel;
-        }
-        if(fuelRemaining < 0)
-            fuelRemaining = 0;
+        fuelTank.addFuel(fuel);
+    }
+
+    public double getFuelRemaining(){
+        return fuelTank.getFuel();
+    }
+
+    public void engineRun(Vector2D direction, double deltaTime){
+        System.out.println("running");
+        double force = engine.force*20;
+        Vector2D acceleration = direction.scalarMul(force).scalarMul(1/getWeight());
+        accelerate(acceleration, deltaTime);
+        fuelTank.used(deltaTime);
     }
 
     @Override

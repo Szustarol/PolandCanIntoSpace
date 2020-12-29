@@ -4,7 +4,9 @@ import space.model.Vector2D;
 import space.objects.AbstractGameObject;
 
 import java.util.LinkedList;
+import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class Map implements IPositionChangeObserver{
     private TreeMap<Vector2D, LinkedList<AbstractGameObject>> objects;
@@ -18,21 +20,23 @@ public class Map implements IPositionChangeObserver{
 
 
     public Vector2D targetPositionMapping(Vector2D position){
-        while(position.x > mapWidth/2){
-            position = position.add(new Vector2D(-mapWidth, 0));
+        Vector2D ret = new Vector2D(position);
+
+        while(ret.x > mapWidth/2){
+            ret = ret.add(new Vector2D(-mapWidth, 0));
         }
 
-        while(position.x < mapWidth/2){
-            position = position.add(new Vector2D(mapWidth, 0));
+        while(ret.x < -mapWidth/2){
+            ret = ret.add(new Vector2D(mapWidth, 0));
         }
-        return  position;
+        return ret;
     }
 
 
     public LinkedList<AbstractGameObject> getObjectsBetween(double fromy, double toy){
         LinkedList<AbstractGameObject> list = new LinkedList<>();
-        objects.tailMap(new Vector2D(-1000, fromy)).headMap(new Vector2D(1000, toy));
-        objects.values().forEach(lst -> {
+        SortedMap<Vector2D, LinkedList<AbstractGameObject>> subMap =objects.subMap(new Vector2D(-1500, fromy), new Vector2D(1500, toy));
+        subMap.values().forEach(lst -> {
             list.addAll(lst);
         });
         return list;

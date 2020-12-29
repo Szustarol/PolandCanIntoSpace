@@ -35,20 +35,41 @@ public class GamePanel extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         repaint();
-        System.out.println("Key pressed");
-        switch(e.getKeyChar()){
-            case ' ':
-                if(runner != null){
+        System.out.println(e.getKeyCode());
+        switch(e.getKeyCode()){
+            case 32:
+                if(runner != null && !runner.isStarted() && !runner.isGameFinished()){
                     runner.start();
                     System.out.println("starting runner");
                 }
+                break;
+            case 37:
+                if(runner != null)
+                    runner.horizontalThrottlePosition = -1;
+                break;
+            case 39:
+                if(runner != null)
+                    runner.horizontalThrottlePosition = 1;
+                break;
+            case 38:
+                if(runner != null)
+                    runner.throttleUp = true;
                 break;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        repaint();
+        switch (e.getKeyCode()){
+            case 38:
+                runner.throttleUp = false;
+                break;
+            case 37:
+            case 39:
+                runner.horizontalThrottlePosition = 0;
+                break;
+        }
     }
 
 
@@ -70,14 +91,21 @@ public class GamePanel extends JPanel implements KeyListener {
 
         LinkedList<AbstractGameObject> objects = runner.getDrawableBetween(referencePosition.y-1000, referencePosition.y+1000);
 
-        if(gameStatPanel != null){
-            gameStatPanel.setRocketHeight(referencePosition.y);
-        }
+        gameStatPanel.updateWithRocketData(runner.getRocketStatus());
 
         objects.forEach(abstractGameObject -> {
             BufferedImage image = abstractGameObject.getImage(0);
             Vector2D imageDimension = new Vector2D(image.getWidth(), image.getHeight()).scalarMul(0.5);
-            Vector2D position = transformCoordinates(referencePosition, abstractGameObject.getPosition());
+            Vector2D objectPosition = abstractGameObject.getPosition();
+            if(!runner.targetPositionMapping(objectPosition).equals(objectPosition)){
+                //draw two instances
+                Vector2D position2 = transformCoordinates(referencePosition, runner.targetPositionMapping(objectPosition));
+                position2 = position2.sub(imageDimension);
+                graphics.drawImage(image, (int)position2.x, (int)position2.y, this);
+
+            }
+
+            Vector2D position = transformCoordinates(referencePosition, objectPosition);
             position = position.sub(imageDimension);
 
             graphics.drawImage(image, (int)position.x, (int)position.y, this);

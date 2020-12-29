@@ -33,6 +33,10 @@ public class MainWindow extends JFrame {
     private void repaintHandler(ActionEvent e){
         if(runner != null && runner.isStarted())
             gamePanel.repaint();
+        if(runner != null && runner.isGameFinished()){
+            runner = new Runner();
+            gamePanel.setRunner(runner);
+        }
     }
 
     private void initControls(){

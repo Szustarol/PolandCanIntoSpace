@@ -4,14 +4,18 @@ import space.model.BoundingBox;
 import space.model.Vector2D;
 import space.objects.objectTypes.CoinType;
 
+import java.awt.image.BufferedImage;
+
 public class Coin extends AbstractGameObject{
 
     private double value;
+    private CoinType type;
 
-    public Coin(CoinType type){
-        super(new Vector2D(0, 0), false);
+    public Coin(CoinType type, Vector2D coinPosition){
+        super(coinPosition, false);
         gameObjectType = GameObjectType.COIN;
         value = type.value();
+        this.type = type;
     }
 
     @Override
@@ -24,5 +28,10 @@ public class Coin extends AbstractGameObject{
         if(another.gameObjectType == GameObjectType.ROCKET){
             //TODO: add coin to the wallet
         }
+    }
+
+    public BufferedImage getImage(float rotation){
+        //ignores rotation
+        return type.getImage();
     }
 }

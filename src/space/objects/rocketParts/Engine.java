@@ -15,10 +15,10 @@ public class Engine extends AbstractRocketPart{
             100
     };
     private static final double [] engine_forces = {
-            10,
-            50,
-            100,
-            400
+            1000,
+            5000,
+            10000,
+            40000
     };
     private static final double [] engine_weights = {
             100,
@@ -33,11 +33,14 @@ public class Engine extends AbstractRocketPart{
             -1
     };
 
+    public final double force;
+
     public Engine(int engineLevel){
         loadPath = engine_data_path[engineLevel];
         weight = engine_weights[engineLevel];
         health = engine_hitpoints[engineLevel];
         nextPrice = engine_upgrade_costs[engineLevel];
+        force = engine_forces[engineLevel];
         image = null;
     }
 

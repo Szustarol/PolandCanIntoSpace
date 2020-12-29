@@ -7,10 +7,10 @@ public class Translations {
     private static TreeMap<String, String> translation;
 
     private static String [] names = {
-        "rocket_height"
+        "rocket_height", "rocket_fuel_left"
     };
 
-    private static  String [] tr_pl_PL = {"Wysokość rakiety"};
+    private static  String [] tr_pl_PL = {"Wysokość rakiety", "Pozostało paliwa"};
 
     public static String getTranslation(String translationName){
         if(!translation.containsKey(translationName)){

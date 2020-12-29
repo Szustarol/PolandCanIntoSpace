@@ -11,8 +11,8 @@ public class Vector2D implements Comparable<Vector2D>{
         double x = generator.nextDouble();
         double y = generator.nextDouble();
 
-        x = fromX + (toX - fromX)*x;
-        y = fromY + (toY - fromY)*y;
+        x = (toX - fromX)*x + fromX;
+        y = (toY - fromY)*y + fromY;
 
         return new Vector2D(x, y);
     }
@@ -43,6 +43,10 @@ public class Vector2D implements Comparable<Vector2D>{
 
     public Vector2D scalarMul(double value){
         return new Vector2D(this.x * value, this.y * value);
+    }
+
+    public boolean equals(Vector2D other){
+        return this.x == other.x && this.y == other.y;
     }
 
     public int compareTo(Vector2D other){

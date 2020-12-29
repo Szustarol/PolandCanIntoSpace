@@ -2,6 +2,7 @@ package space.objects;
 
 import space.model.BoundingBox;
 import space.model.Vector2D;
+import space.objects.staticObjects.StaticGameObject;
 import space.status.IPositionChangeObserver;
 import space.status.Map;
 
