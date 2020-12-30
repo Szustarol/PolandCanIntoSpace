@@ -8,4 +8,22 @@ public class BoundingBox {
         this.lowerLeft = lowerLeft;
         this.upperRight = upperRight;
     }
+
+    @Override
+    public String toString() {
+        return "BoundingBox{" +
+                "lowerLeft=" + lowerLeft +
+                ", upperRight=" + upperRight +
+                '}';
+    }
+
+    public boolean collides(BoundingBox other){
+        boolean xOverlap = lowerLeft.x <= other.upperRight.x
+                && other.lowerLeft.x <= upperRight.x;
+
+        boolean yOverlap = lowerLeft.y <= other.upperRight.y
+                && other.lowerLeft.y <= upperRight.y;
+
+        return xOverlap && yOverlap;
+    }
 }

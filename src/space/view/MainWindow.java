@@ -1,5 +1,6 @@
 package space.view;
 
+import space.status.GameData;
 import space.status.Runner;
 import space.view.panels.GamePanel;
 import space.view.panels.GameStatPanel;
@@ -16,6 +17,7 @@ public class MainWindow extends JFrame {
     private GameStatPanel gameStatPanel;
     private Timer repaintTimer;
     private Runner runner;
+    private GameData gameData;
 
     private void initPanelsAndLayout(){
         setLayout(new BorderLayout());
@@ -34,7 +36,7 @@ public class MainWindow extends JFrame {
         if(runner != null && runner.isStarted())
             gamePanel.repaint();
         if(runner != null && runner.isGameFinished()){
-            runner = new Runner();
+            runner = new Runner(gameData);
             gamePanel.setRunner(runner);
         }
     }
@@ -48,7 +50,9 @@ public class MainWindow extends JFrame {
         initPanelsAndLayout();
         initControls();
 
-        runner = new Runner();
+        gameData = new GameData(0, 0, 0,0, 0,0);
+
+        runner = new Runner(gameData);
 
         repaintTimer = new Timer(1000/30, this::repaintHandler);
         repaintTimer.start();

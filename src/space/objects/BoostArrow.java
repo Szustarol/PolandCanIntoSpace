@@ -4,19 +4,22 @@ import space.model.BoundingBox;
 import space.model.Vector2D;
 import space.objects.objectTypes.BoostType;
 
+import java.awt.image.BufferedImage;
+
 public class BoostArrow extends AbstractGameObject{
 
     private final Vector2D boostAcceleration;
+    private BoostType type;
 
-    public BoostArrow(BoostType type){
-        super(new Vector2D(0, 0), false);
+    public BoostArrow(BoostType type, Vector2D boostPosition){
+        super(boostPosition, false);
         boostAcceleration = type.value();
         gameObjectType = GameObjectType.BOOST;
+        this.type = type;
     }
 
-    @Override
-    public BoundingBox getHitBox() {
-        return null;
+    public BufferedImage getImage(float rotation){
+        return type.getImage();
     }
 
     @Override
@@ -24,6 +27,7 @@ public class BoostArrow extends AbstractGameObject{
         if(another.gameObjectType == GameObjectType.ROCKET){
             Rocket rocket = (Rocket) another;
             rocket.accelerate(boostAcceleration, 1);
+            this.markedForDeletion = true;
         }
     }
 }

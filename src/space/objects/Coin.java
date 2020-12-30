@@ -18,16 +18,13 @@ public class Coin extends AbstractGameObject{
         this.type = type;
     }
 
-    @Override
-    public BoundingBox getHitBox() {
-        return null;
+    public double getValue(){
+        return value;
     }
 
     @Override
     public void interact(AbstractGameObject another) {
-        if(another.gameObjectType == GameObjectType.ROCKET){
-            //TODO: add coin to the wallet
-        }
+
     }
 
     public BufferedImage getImage(float rotation){

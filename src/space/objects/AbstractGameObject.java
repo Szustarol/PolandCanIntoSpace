@@ -24,6 +24,8 @@ public abstract class AbstractGameObject implements Comparable<AbstractGameObjec
 
     public final int objectID;
 
+    public boolean markedForDeletion = false;
+
     public void addObserver(IPositionChangeObserver observer){
         if(observers == null)
             observers = new LinkedList<>();
@@ -62,7 +64,27 @@ public abstract class AbstractGameObject implements Comparable<AbstractGameObjec
         }
     }
 
-    public abstract BoundingBox getHitBox();
+    public BoundingBox getHitBox(){
+        Vector2D reference = getPosition();
+        BufferedImage img = getImage(0);
+        if(img == null)
+            return null;
+        Vector2D lowerLeft = reference.sub(
+                new Vector2D(
+                        (double)img.getWidth()/2,
+                        (double)img.getWidth()/2
+                )
+        );
+        Vector2D upperRight = reference.add(
+                new Vector2D(
+                        (double)img.getWidth()/2,
+                        (double)img.getHeight()/2
+                )
+        );
+        return new BoundingBox(
+                lowerLeft, upperRight
+        );
+    }
 
     public abstract void interact(AbstractGameObject another);
 

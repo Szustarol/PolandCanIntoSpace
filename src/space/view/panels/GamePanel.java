@@ -1,5 +1,6 @@
 package space.view.panels;
 
+import space.model.BoundingBox;
 import space.model.Vector2D;
 import space.objects.AbstractGameObject;
 import space.status.Runner;
@@ -35,7 +36,6 @@ public class GamePanel extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         repaint();
-        System.out.println(e.getKeyCode());
         switch(e.getKeyCode()){
             case 32:
                 if(runner != null && !runner.isStarted() && !runner.isGameFinished()){
@@ -82,12 +82,33 @@ public class GamePanel extends JPanel implements KeyListener {
         return absolute;
     }
 
+    public Color getColorAtHeight(double height){
+        double start = 0;
+        double end = 100000;
+        if(height > end)
+            height = end;
+        if(height < start)
+            height = start;
+        double percentage = height/(end-start);
+        double startR = 55, startG = 192, startB = 235;
+        double endR = 22, endG = 42, endB = 97;
+        double diffR = endR-startR, diffG = endG-startG, diffB = endB-startB;
+        return new Color(
+                (int)(startR + diffR*percentage),
+                (int)(startG + diffG*percentage),
+                (int)(startB + diffB*percentage)
+        );
+    }
+
     public void paint(Graphics graphics){
         super.paint(graphics);
         if(runner == null)
             return;
 
         Vector2D referencePosition = runner.getReferencePosition();
+
+        graphics.setColor(getColorAtHeight(referencePosition.y));
+        graphics.fillRect(0, 0, getWidth(), getHeight());
 
         LinkedList<AbstractGameObject> objects = runner.getDrawableBetween(referencePosition.y-1000, referencePosition.y+1000);
 
@@ -97,6 +118,15 @@ public class GamePanel extends JPanel implements KeyListener {
             BufferedImage image = abstractGameObject.getImage(0);
             Vector2D imageDimension = new Vector2D(image.getWidth(), image.getHeight()).scalarMul(0.5);
             Vector2D objectPosition = abstractGameObject.getPosition();
+            BoundingBox bb = abstractGameObject.getHitBox();
+            if(bb != null){
+                double width = bb.upperRight.x - bb.lowerLeft.x;
+                double height = bb.upperRight.y - bb.lowerLeft.y;
+                Vector2D cd = new Vector2D(bb.lowerLeft.x, bb.upperRight.y);
+                cd = transformCoordinates(referencePosition, runner.targetPositionMapping(cd));
+                graphics.setColor(Color.red);
+                graphics.drawRect((int)cd.x, (int)cd.y, (int)width, (int)height);
+            }
             if(!runner.targetPositionMapping(objectPosition).equals(objectPosition)){
                 //draw two instances
                 Vector2D position2 = transformCoordinates(referencePosition, runner.targetPositionMapping(objectPosition));

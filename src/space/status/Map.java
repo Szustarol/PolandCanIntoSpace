@@ -2,6 +2,7 @@ package space.status;
 
 import space.model.Vector2D;
 import space.objects.AbstractGameObject;
+import space.objects.Rocket;
 
 import java.util.LinkedList;
 import java.util.SortedMap;
@@ -11,7 +12,7 @@ import java.util.TreeSet;
 public class Map implements IPositionChangeObserver{
     private TreeMap<Vector2D, LinkedList<AbstractGameObject>> objects;
 
-    private double mapWidth = 2000;
+    private double mapWidth;
 
     public Map(double mapWidth){
         objects = new TreeMap<>();
@@ -36,9 +37,7 @@ public class Map implements IPositionChangeObserver{
     public LinkedList<AbstractGameObject> getObjectsBetween(double fromy, double toy){
         LinkedList<AbstractGameObject> list = new LinkedList<>();
         SortedMap<Vector2D, LinkedList<AbstractGameObject>> subMap =objects.subMap(new Vector2D(-1500, fromy), new Vector2D(1500, toy));
-        subMap.values().forEach(lst -> {
-            list.addAll(lst);
-        });
+        subMap.values().forEach(list::addAll);
         return list;
     }
 
@@ -50,23 +49,30 @@ public class Map implements IPositionChangeObserver{
         objects.get(pos).add(object);
     }
 
-    public void removeObject(AbstractGameObject object){
-        Vector2D pos = object.getPosition();
-        if(objects.containsKey(pos)){
-            objects.get(pos).remove(object);
-        }
-        if(objects.get(pos).size() == 0){
-            objects.remove(pos);
+    private void ensureValidDoubleRemoval(Vector2D position, AbstractGameObject object){
+        Vector2D startingKey = position.sub(new Vector2D(1, 1));
+        Vector2D endingKey = position.add(new Vector2D(1, 1));
+        Vector2D key = objects.higherKey(startingKey);
+        while(key.compareTo(endingKey) < 0){
+            LinkedList<AbstractGameObject> value = objects.get(key);
+            if(value.contains(object)){
+                value.remove(object);
+                if(value.size() == 0)
+                    objects.remove(key);
+                break;
+            }
+            key = objects.higherKey(key);
+            if(key == null)
+                break;
         }
     }
 
+    public void removeObject(AbstractGameObject object){
+        ensureValidDoubleRemoval(object.getPosition(), object);
+    }
+
     private void removeObjectFromPosition(AbstractGameObject object, Vector2D position){
-        if(objects.containsKey(position)){
-            objects.get(position).remove(object);
-        }
-        if(objects.get(position).size() == 0){
-            objects.remove(position);
-        }
+        ensureValidDoubleRemoval(position, object);
     }
 
     @Override

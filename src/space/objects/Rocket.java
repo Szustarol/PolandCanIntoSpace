@@ -5,6 +5,7 @@ import space.model.Vector2D;
 import space.objects.rocketParts.Engine;
 import space.objects.rocketParts.FuelTank;
 import space.objects.rocketParts.Hull;
+import space.status.GameData;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -16,14 +17,22 @@ public class Rocket extends AbstractGameObject {
     private Hull hull;
     private Engine engine;
     private FuelTank fuelTank;
+    private GameData gameData;
 
     private double getWeight(){
         return hull.partWeight() + engine.partWeight();
     }
 
+    public void setData(GameData gameData){
+        engine = new Engine(gameData.engineLevel);
+        hull = new Hull(gameData.hullLevel);
+        fuelTank = new FuelTank(gameData.tankLevel);
+        this.gameData = gameData;
+    }
+
     public void applyDrag(double deltaTime){
         double coef = 0.2; //nose.getcoef, fins.getcoef;
-        double constCoef = 4;
+        double constCoef = 2;
         double forceCoef = constCoef*coef;
         double forceX = forceCoef* velocity.x* velocity.x;
         double forceY = forceCoef* velocity.y* velocity.y;
@@ -37,13 +46,13 @@ public class Rocket extends AbstractGameObject {
     }
 
     public BufferedImage getImage(float rotation){
-        int w = 180;
+        int w = 150;
         int h = 250;
         BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 
         Graphics g = combined.getGraphics();
-        g.drawImage(engine.getImage(), 0, 135, null);
-        g.drawImage(hull.getImage(), 0, 0, null);
+        g.drawImage(engine.getImage(), 20, 135, null);
+        g.drawImage(hull.getImage(), 20, 0, null);
 
         g.dispose();
 
@@ -76,20 +85,20 @@ public class Rocket extends AbstractGameObject {
     }
 
     public void engineRun(Vector2D direction, double deltaTime){
-        System.out.println("running");
         double force = engine.force*20;
         Vector2D acceleration = direction.scalarMul(force).scalarMul(1/getWeight());
         accelerate(acceleration, deltaTime);
         fuelTank.used(deltaTime);
     }
 
-    @Override
-    public BoundingBox getHitBox() {
-        return null;
-    }
 
     @Override
     public void interact(AbstractGameObject another) {
-        //do nothing
+        if(another.gameObjectType == GameObjectType.COIN){
+            another.markedForDeletion = true;
+            Coin coin = (Coin)another;
+            if(this.gameData != null)
+                gameData.money += coin.getValue();
+        }
     }
 }
