@@ -7,6 +7,7 @@ public class GameData {
     public int tankLevel;
     public int noseLevel;
     public int finsLevel;
+    public boolean refreshRequired = false;
 
     public GameData(double money, int engineLevel, int hullLevel,
                     int tankLevel, int noseLevel, int finsLevel){

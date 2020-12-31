@@ -26,7 +26,7 @@ public class Engine extends AbstractRocketPart{
             200,
             150
     };
-    private static final double [] engine_upgrade_costs = {
+    public static final double [] engine_upgrade_costs = {
             100,
             500,
             1000,

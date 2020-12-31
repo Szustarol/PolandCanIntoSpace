@@ -6,11 +6,12 @@ import java.util.Vector;
 public class Translations {
     private static TreeMap<String, String> translation;
 
-    private static String [] names = {
-        "rocket_height", "rocket_fuel_left"
+    private static final String [] names = {
+        "rocket_height", "rocket_fuel_left", "upgrade", "hull", "engine", "start_flight", "money"
     };
 
-    private static  String [] tr_pl_PL = {"Wysokość rakiety", "Pozostało paliwa"};
+    private static final String [] tr_pl_PL = {"Wysokość rakiety", "Pozostało paliwa", "Ulepszenie", "kadłub", "silnik",
+    "Naciśnij spację, aby rozpocząć nowy lot.", "Pieniądze"};
 
     public static String getTranslation(String translationName){
         if(!translation.containsKey(translationName)){

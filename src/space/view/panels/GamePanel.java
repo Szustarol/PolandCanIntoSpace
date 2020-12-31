@@ -1,5 +1,6 @@
 package space.view.panels;
 
+import space.Translations;
 import space.model.BoundingBox;
 import space.model.Vector2D;
 import space.objects.AbstractGameObject;
@@ -110,7 +111,9 @@ public class GamePanel extends JPanel implements KeyListener {
         graphics.setColor(getColorAtHeight(referencePosition.y));
         graphics.fillRect(0, 0, getWidth(), getHeight());
 
-        LinkedList<AbstractGameObject> objects = runner.getDrawableBetween(referencePosition.y-1000, referencePosition.y+1000);
+        double margin  = 1000;
+        LinkedList<AbstractGameObject> objects = runner.getDrawableBetween(
+                referencePosition.y-(double)getHeight()/2-margin, referencePosition.y+(double)getHeight()/2+margin);
 
         gameStatPanel.updateWithRocketData(runner.getRocketStatus());
 
@@ -140,6 +143,11 @@ public class GamePanel extends JPanel implements KeyListener {
 
             graphics.drawImage(image, (int)position.x, (int)position.y, this);
         });
-
+        if(!runner.isStarted()){
+            graphics.setColor(new Color(200, 100 ,0));
+            Font font = graphics.getFont();
+            graphics.setFont(font.deriveFont(18.0f));
+            graphics.drawString(Translations.getTranslation("start_flight"), 10, 20);
+        }
     }
 }

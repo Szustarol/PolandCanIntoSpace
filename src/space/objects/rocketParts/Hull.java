@@ -23,7 +23,7 @@ public class Hull extends AbstractRocketPart{
             700,
             550
     };
-    private static final double [] hull_upgrade_costs = {
+    public static final double [] hull_upgrade_costs = {
             200,
             1000,
             1200,

@@ -25,6 +25,7 @@ public class GameStatPanel extends JPanel {
         setRocketFuel(0);
     }
 
+
     private void initLabels(){
         rocketHeightLabel = new JLabel();
         rocketFuelLabel = new JLabel();

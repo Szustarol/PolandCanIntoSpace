@@ -8,9 +8,9 @@ import space.view.panels.UpgradesPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame implements KeyListener {
 
     private UpgradesPanel upgradesPanel;
     private GamePanel gamePanel;
@@ -21,7 +21,7 @@ public class MainWindow extends JFrame {
 
     private void initPanelsAndLayout(){
         setLayout(new BorderLayout());
-        upgradesPanel = new UpgradesPanel();
+        upgradesPanel = new UpgradesPanel(gameData);
         gamePanel = new GamePanel();
         gameStatPanel = new GameStatPanel();
         add(upgradesPanel, BorderLayout.LINE_START);
@@ -33,11 +33,21 @@ public class MainWindow extends JFrame {
     }
 
     private void repaintHandler(ActionEvent e){
-        if(runner != null && runner.isStarted())
+        upgradesPanel.refresh();
+        if(gameData.refreshRequired){
+            gameData.refreshRequired = false;
+            runner.reloadData();
             gamePanel.repaint();
+        }
+        if(runner != null && runner.isStarted()) {
+            gamePanel.repaint();
+            upgradesPanel.setClickable(false);
+        }
         if(runner != null && runner.isGameFinished()){
+            upgradesPanel.setClickable(true);
             runner = new Runner(gameData);
             gamePanel.setRunner(runner);
+            gamePanel.repaint();
         }
     }
 
@@ -46,11 +56,11 @@ public class MainWindow extends JFrame {
     }
 
     public MainWindow(String title){
+        gameData = new GameData(0, 0, 0,0, 0,0);
+
         setTitle(title);
         initPanelsAndLayout();
         initControls();
-
-        gameData = new GameData(0, 0, 0,0, 0,0);
 
         runner = new Runner(gameData);
 
@@ -58,7 +68,33 @@ public class MainWindow extends JFrame {
         repaintTimer.start();
 
         gamePanel.setRunner(runner);
+        gamePanel.setFocusable(true);
         gamePanel.repaint();
+        gamePanel.requestFocus();
+        gamePanel.requestFocusInWindow();
+        gamePanel.grabFocus();
+
+        setSize(new Dimension(800, 600));
+    }
+
+
+    //redirect all input
+    @Override
+    public void keyTyped(KeyEvent e) {
+        gamePanel.requestFocus();
+        gamePanel.keyTyped(e);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        gamePanel.requestFocus();
+        gamePanel.keyPressed(e);
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        gamePanel.requestFocus();
+        gamePanel.keyReleased(e);
     }
 
 }

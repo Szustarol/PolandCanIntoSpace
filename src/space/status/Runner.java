@@ -55,6 +55,10 @@ public class Runner {
         generateBoost(500);
     }
 
+    public void reloadData(){
+        rocket.setData(gameData);
+    }
+
     private void generateClouds(int nClouds){
         for(int i = 0; i < nClouds; i++){
             Vector2D cloudPosition = Vector2D.randomVector(-mapWidth/2-500, mapWidth/2+500, 100, 100000);

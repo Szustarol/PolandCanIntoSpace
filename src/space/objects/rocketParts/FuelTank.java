@@ -25,7 +25,7 @@ public class FuelTank{
     }
 
     public FuelTank(int tankLevel){
-        maxFuel = new double[] {5000, 100, 200, 3000, 400}[tankLevel];
+        maxFuel = new double[] {50, 100, 200, 3000, 400}[tankLevel];
         fuel = maxFuel;
     }
 }
