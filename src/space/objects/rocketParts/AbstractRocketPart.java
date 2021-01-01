@@ -15,7 +15,6 @@ public abstract class AbstractRocketPart {
 
     protected BufferedImage image = null;
 
-
     public double partWeight(){
         return weight;
     }
@@ -32,7 +31,7 @@ public abstract class AbstractRocketPart {
         if(image == null){
             try{
                 if(loadPath == null){
-                    image = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
+                    image = null;
                 }
                 else{
                     image = ImageIO.read(new File(loadPath));

@@ -2,7 +2,9 @@ package space.view.panels;
 
 import space.Translations;
 import space.objects.rocketParts.Engine;
+import space.objects.rocketParts.Fins;
 import space.objects.rocketParts.Hull;
+import space.objects.rocketParts.Nose;
 import space.status.GameData;
 
 import javax.swing.*;
@@ -47,6 +49,8 @@ public class UpgradesPanel extends JPanel {
     private void updateCosts(){
         setCost(0, Hull.hull_upgrade_costs[gameData.hullLevel]);
         setCost(1, Engine.engine_upgrade_costs[gameData.engineLevel]);
+        setCost(2, Fins.upgrade_costs[gameData.finsLevel]);
+        setCost(3, Nose.upgrade_costs[gameData.noseLevel]);
         moneyLabel.setText(Translations.getTranslation("money") + ": " + gameData.money);
     }
 
@@ -54,6 +58,8 @@ public class UpgradesPanel extends JPanel {
         switch (upgradeName) {
             case "hull" -> gameData.hullLevel++;
             case "engine" -> gameData.engineLevel++;
+            case "fins" -> gameData.finsLevel++;
+            case "nose" -> gameData.noseLevel++;
         }
         updateCosts();
         gameData.refreshRequired = true;
@@ -63,7 +69,9 @@ public class UpgradesPanel extends JPanel {
         String upgradeTr = Translations.getTranslation("upgrade");
         String[] upgradeNames = new String[]{
                 "hull",
-                "engine"
+                "engine",
+                "fins",
+                "nose"
         };
 
         upgradeLabels = new JLabel[upgradeNames.length];

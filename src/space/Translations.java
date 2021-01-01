@@ -7,11 +7,11 @@ public class Translations {
     private static TreeMap<String, String> translation;
 
     private static final String [] names = {
-        "rocket_height", "rocket_fuel_left", "upgrade", "hull", "engine", "start_flight", "money"
+        "rocket_height", "rocket_fuel_left", "upgrade", "hull", "engine", "start_flight", "money", "fins", "nose"
     };
 
     private static final String [] tr_pl_PL = {"Wysokość rakiety", "Pozostało paliwa", "Ulepszenie", "kadłub", "silnik",
-    "Naciśnij spację, aby rozpocząć nowy lot.", "Pieniądze"};
+    "Naciśnij spację, aby rozpocząć nowy lot.", "Pieniądze", "stateczniki", "dziób"};
 
     public static String getTranslation(String translationName){
         if(!translation.containsKey(translationName)){
