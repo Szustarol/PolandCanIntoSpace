@@ -1,10 +1,7 @@
 package space.view.panels;
 
 import space.Translations;
-import space.objects.rocketParts.Engine;
-import space.objects.rocketParts.Fins;
-import space.objects.rocketParts.Hull;
-import space.objects.rocketParts.Nose;
+import space.objects.rocketParts.*;
 import space.status.GameData;
 
 import javax.swing.*;
@@ -51,6 +48,7 @@ public class UpgradesPanel extends JPanel {
         setCost(1, Engine.engine_upgrade_costs[gameData.engineLevel]);
         setCost(2, Fins.upgrade_costs[gameData.finsLevel]);
         setCost(3, Nose.upgrade_costs[gameData.noseLevel]);
+        setCost(4, FuelTank.upgrade_costs[gameData.tankLevel]);
         moneyLabel.setText(Translations.getTranslation("money") + ": " + gameData.money);
     }
 
@@ -60,6 +58,7 @@ public class UpgradesPanel extends JPanel {
             case "engine" -> gameData.engineLevel++;
             case "fins" -> gameData.finsLevel++;
             case "nose" -> gameData.noseLevel++;
+            case "tank" -> gameData.tankLevel++;
         }
         updateCosts();
         gameData.refreshRequired = true;
@@ -71,7 +70,8 @@ public class UpgradesPanel extends JPanel {
                 "hull",
                 "engine",
                 "fins",
-                "nose"
+                "nose",
+                "tank"
         };
 
         upgradeLabels = new JLabel[upgradeNames.length];
@@ -100,9 +100,11 @@ public class UpgradesPanel extends JPanel {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(1, 1, 1, 1);
+        gbc.weightx = 1;
         for(int i = 0; i < upgradeLabels.length; i++){
             gbc.gridx = 0;
             gbc.gridy = i;
+            gbc.anchor = GridBagConstraints.WEST;
             add(upgradeLabels[i], gbc);
             gbc.gridx = 1;
             add(upgradeButtons[i], gbc);

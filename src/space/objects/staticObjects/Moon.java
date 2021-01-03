@@ -7,8 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Ground  extends StaticGameObject{
-
+public class Moon extends  StaticGameObject{
     static BufferedImage image = null;
 
     @Override
@@ -16,14 +15,15 @@ public class Ground  extends StaticGameObject{
         return image;
     }
 
-    public Ground(Vector2D position) {
+    public Moon(Vector2D position) {
         super(position);
         if(image == null){
             try{
-                image = ImageIO.read(new File("Data/Static/ground2.png"));
+                image = ImageIO.read(new File("Data/Static/moon.png"));
             }catch (IOException e){
-                System.out.println("Error while reading image file: " + "Data/Static/ground2.png");
+                System.out.println("Error while reading image file: " + "Data/Static/moon.png");
             }
         }
     }
+
 }

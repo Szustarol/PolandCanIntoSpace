@@ -16,9 +16,9 @@ public class Engine extends AbstractRocketPart{
     };
     private static final double [] engine_forces = {
             2000,
-            5000,
+            7000,
             10000,
-            40000
+            20000
     };
     private static final double [] engine_weights = {
             100,

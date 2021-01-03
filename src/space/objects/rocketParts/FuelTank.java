@@ -24,8 +24,12 @@ public class FuelTank{
             fuel = 0;
     }
 
+    public static double [] upgrade_costs = {
+        100, 500, 1500, 20000, -1
+    };
+
     public FuelTank(int tankLevel){
-        maxFuel = new double[] {50, 100, 200, 3000, 400}[tankLevel];
+        maxFuel = new double[] {20, 50, 100, 150, 200, 250}[tankLevel];
         fuel = maxFuel;
     }
 }

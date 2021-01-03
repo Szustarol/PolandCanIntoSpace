@@ -10,6 +10,7 @@ import space.objects.objectTypes.BoostType;
 import space.objects.objectTypes.CoinType;
 import space.objects.staticObjects.Cloud;
 import space.objects.staticObjects.Ground;
+import space.objects.staticObjects.Moon;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -25,7 +26,8 @@ public class Runner {
     private Timer gameTimer = null;
     private double prevTime = -1;
     private boolean gameFinished = false;
-    private double mapWidth = 7000;
+    private double mapWidth = 14000;
+    private int gameWorldHeight = 400000;
     private GameData gameData;
     private Random generator;
 
@@ -50,9 +52,14 @@ public class Runner {
         rocket.addObserver(map);
         gameObjectSet.add(rocket);
         map.addObject(rocket);
-        generateClouds(1000);
-        generateCoins(1500);
-        generateBoost(500);
+
+        Moon moon = new Moon(new Vector2D(0, gameWorldHeight-1000));
+        gameObjectSet.add(moon);
+        map.addObject(moon);
+
+        generateClouds(10000);
+        generateCoins(15000);
+        generateBoost(5000);
     }
 
     public void reloadData(){
@@ -61,7 +68,7 @@ public class Runner {
 
     private void generateClouds(int nClouds){
         for(int i = 0; i < nClouds; i++){
-            Vector2D cloudPosition = Vector2D.randomVector(-mapWidth/2-500, mapWidth/2+500, 100, 100000);
+            Vector2D cloudPosition = Vector2D.randomVector(-mapWidth/2-500, mapWidth/2+500, 100, gameWorldHeight);
             Cloud cloud = new Cloud(cloudPosition);
             gameObjectSet.add(cloud);
             map.addObject(cloud);
@@ -87,7 +94,7 @@ public class Runner {
     }
 
     private Vector2D randomValidMapVector(){
-        return Vector2D.randomVector(-mapWidth/2-500, mapWidth/2+500, 100, 100000);
+        return Vector2D.randomVector(-mapWidth/2-500, mapWidth/2+500, 100, gameWorldHeight);
     }
 
     private void generateBoost(int nBoosts){

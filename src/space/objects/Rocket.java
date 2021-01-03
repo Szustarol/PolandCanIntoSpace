@@ -111,7 +111,7 @@ public class Rocket extends AbstractGameObject {
     public void engineRun(Vector2D direction, double deltaTime){
         double force = engine.force*20;
         Vector2D acceleration = direction.scalarMul(force).scalarMul(1/getWeight());
-        acceleration = new Vector2D(acceleration.x, acceleration.y*fins.horizontalCoefficient);
+        acceleration = new Vector2D(acceleration.x* fins.horizontalCoefficient, acceleration.y);
         accelerate(acceleration, deltaTime);
         fuelTank.used(deltaTime);
     }

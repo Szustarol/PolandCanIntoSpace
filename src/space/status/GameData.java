@@ -11,7 +11,7 @@ public class GameData {
 
     public GameData(double money, int engineLevel, int hullLevel,
                     int tankLevel, int noseLevel, int finsLevel){
-        this.money = money;
+        this.money = 100000;
         this.engineLevel = engineLevel;
         this.hullLevel = hullLevel;
         this.tankLevel = tankLevel;

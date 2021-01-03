@@ -10,6 +10,10 @@ public class StaticGameObject extends AbstractGameObject {
         super(position, false);
     }
 
+    public Vector2D clingToPosition(){
+        return null;
+    }
+
     @Override
     public BoundingBox getHitBox() {
         return null;
