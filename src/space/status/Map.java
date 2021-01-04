@@ -2,17 +2,15 @@ package space.status;
 
 import space.model.Vector2D;
 import space.objects.AbstractGameObject;
-import space.objects.Rocket;
 
 import java.util.LinkedList;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 public class Map implements IPositionChangeObserver{
-    private TreeMap<Vector2D, LinkedList<AbstractGameObject>> objects;
+    private final TreeMap<Vector2D, LinkedList<AbstractGameObject>> objects;
 
-    private double mapWidth;
+    private final double mapWidth;
 
     public Map(double mapWidth){
         objects = new TreeMap<>();
@@ -44,7 +42,7 @@ public class Map implements IPositionChangeObserver{
     public void addObject(AbstractGameObject object){
         Vector2D pos = object.getPosition();
         if (!objects.containsKey(pos)) {
-            objects.put(pos, new LinkedList<AbstractGameObject>());
+            objects.put(pos, new LinkedList<>());
         }
         objects.get(pos).add(object);
     }

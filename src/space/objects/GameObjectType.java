@@ -5,5 +5,6 @@ public enum GameObjectType {
     CANISTER,
     BOOST,
     COIN,
+    STATIC,
     NONE
 }

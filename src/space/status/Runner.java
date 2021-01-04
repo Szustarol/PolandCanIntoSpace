@@ -12,27 +12,27 @@ import space.objects.staticObjects.Cloud;
 import space.objects.staticObjects.Ground;
 import space.objects.staticObjects.Moon;
 
-import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.util.*;
 
 public class Runner {
 
-    private Map map;
-    private TreeSet<AbstractGameObject> gameObjectSet;
-    private Rocket rocket;
+    private final Map map;
+    private final TreeSet<AbstractGameObject> gameObjectSet;
+    private final Rocket rocket;
     private boolean started = false;
     private Timer gameTimer = null;
     private double prevTime = -1;
     private boolean gameFinished = false;
-    private double mapWidth = 14000;
-    private int gameWorldHeight = 400000;
-    private GameData gameData;
-    private Random generator;
+    private final double mapWidth = 14000;
+    private final int gameWorldHeight = 400000;
+    private final GameData gameData;
+    private final Random generator;
 
     public boolean throttleUp = false;
     public int horizontalThrottlePosition = 0;
+    public boolean victoriousGame = false;
 
     public Runner(GameData gameData){
         this.gameData = gameData;
@@ -59,7 +59,7 @@ public class Runner {
 
         generateClouds(10000);
         generateCoins(15000);
-        generateBoost(5000);
+        generateBoost(2500);
     }
 
     public void reloadData(){
@@ -128,12 +128,11 @@ public class Runner {
         double deltaTime;
         if(prevTime == -1) {
             deltaTime = 0;
-            prevTime = System.nanoTime();
         }
         else{
             deltaTime = System.nanoTime()-prevTime;
-            prevTime = System.nanoTime();
         }
+        prevTime = System.nanoTime();
         deltaTime /= 1e8;
 
         makeObjectsInteract();
@@ -189,6 +188,12 @@ public class Runner {
             gameTimer.stop();
             gameFinished = true;
             started = false;
+        }
+        if(rocket.getPosition().y > gameWorldHeight){
+            gameTimer.stop();
+            gameFinished = true;
+            started = false;
+            victoriousGame = true;
         }
     }
 
@@ -252,6 +257,7 @@ public class Runner {
         RocketStatus rocketStatus = new RocketStatus();
         rocketStatus.height = rocket.getPosition().y;
         rocketStatus.fuelLeft = rocket.getFuelRemaining();
+        rocketStatus.speed = rocket.getVelocity();
         return rocketStatus;
     }
 

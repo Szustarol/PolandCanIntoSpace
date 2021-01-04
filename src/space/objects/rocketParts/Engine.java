@@ -26,10 +26,10 @@ public class Engine extends AbstractRocketPart{
             200,
             150
     };
-    public static final double [] engine_upgrade_costs = {
-            100,
-            500,
+    public static final double [] upgrade_costs = {
             1000,
+            10000,
+            50000,
             -1
     };
 
@@ -39,7 +39,7 @@ public class Engine extends AbstractRocketPart{
         loadPath = engine_data_path[engineLevel];
         weight = engine_weights[engineLevel];
         health = engine_hitpoints[engineLevel];
-        nextPrice = engine_upgrade_costs[engineLevel];
+        nextPrice = upgrade_costs[engineLevel];
         force = engine_forces[engineLevel];
         image = null;
     }

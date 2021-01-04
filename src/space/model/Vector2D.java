@@ -1,11 +1,13 @@
 package space.model;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 
 public class Vector2D implements Comparable<Vector2D>{
     public final double x;
     public final double y;
     public static Random generator = new Random();
+    private static final DecimalFormat niceDecimalFormat = new DecimalFormat("#.##");
 
     public static Vector2D randomVector(double fromX, double toX, double fromY, double toY){
         double x = generator.nextDouble();
@@ -25,6 +27,10 @@ public class Vector2D implements Comparable<Vector2D>{
     public Vector2D(Vector2D other){
         this.x = other.x;
         this.y = other.y;
+    }
+
+    public String niceRepresentation(){
+        return "(" + niceDecimalFormat.format(x) + ", " + niceDecimalFormat.format(y) + ")";
     }
 
     @Override

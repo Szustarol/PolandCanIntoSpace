@@ -14,8 +14,6 @@ public class MainWindow extends JFrame implements KeyListener {
 
     private UpgradesPanel upgradesPanel;
     private GamePanel gamePanel;
-    private GameStatPanel gameStatPanel;
-    private Timer repaintTimer;
     private Runner runner;
     private GameData gameData;
 
@@ -23,7 +21,7 @@ public class MainWindow extends JFrame implements KeyListener {
         setLayout(new BorderLayout());
         upgradesPanel = new UpgradesPanel(gameData);
         gamePanel = new GamePanel();
-        gameStatPanel = new GameStatPanel();
+        GameStatPanel gameStatPanel = new GameStatPanel();
         add(upgradesPanel, BorderLayout.LINE_START);
         add(gamePanel, BorderLayout.CENTER);
         add(gameStatPanel, BorderLayout.PAGE_END);
@@ -44,6 +42,13 @@ public class MainWindow extends JFrame implements KeyListener {
             upgradesPanel.setClickable(false);
         }
         if(runner != null && runner.isGameFinished()){
+            if(runner.victoriousGame){
+                VictoryScreen victoryScreen = new VictoryScreen(this);
+                victoryScreen.setModal(true);
+                victoryScreen.setVisible(true);
+                gameData = new GameData(0, 0, 0,0, 0,0);
+                upgradesPanel.reset(gameData);
+            }
             upgradesPanel.setClickable(true);
             runner = new Runner(gameData);
             gamePanel.setRunner(runner);
@@ -64,7 +69,7 @@ public class MainWindow extends JFrame implements KeyListener {
 
         runner = new Runner(gameData);
 
-        repaintTimer = new Timer(1000/30, this::repaintHandler);
+        Timer repaintTimer = new Timer(1000 / 30, this::repaintHandler);
         repaintTimer.start();
 
         gamePanel.setRunner(runner);

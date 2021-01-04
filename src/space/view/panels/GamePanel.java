@@ -4,6 +4,8 @@ import space.Translations;
 import space.model.BoundingBox;
 import space.model.Vector2D;
 import space.objects.AbstractGameObject;
+import space.objects.GameObjectType;
+import space.objects.staticObjects.StaticGameObject;
 import space.status.Runner;
 
 import javax.swing.*;
@@ -28,7 +30,7 @@ public class GamePanel extends JPanel implements KeyListener {
         this.runner = runner;
     }
 
-    public void setGameStatPanel(GameStatPanel gameStatPanel){this.gameStatPanel = gameStatPanel;};
+    public void setGameStatPanel(GameStatPanel gameStatPanel){this.gameStatPanel = gameStatPanel;}
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -62,14 +64,9 @@ public class GamePanel extends JPanel implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         repaint();
-        switch (e.getKeyCode()){
-            case 38:
-                runner.throttleUp = false;
-                break;
-            case 37:
-            case 39:
-                runner.horizontalThrottlePosition = 0;
-                break;
+        switch (e.getKeyCode()) {
+            case 38 -> runner.throttleUp = false;
+            case 37, 39 -> runner.horizontalThrottlePosition = 0;
         }
     }
 
@@ -79,7 +76,7 @@ public class GamePanel extends JPanel implements KeyListener {
         int screenHeight = getHeight();
         Vector2D absolute = position.sub(reference);
         absolute = new Vector2D(absolute.x, -absolute.y);
-        absolute = absolute.add(new Vector2D(screenWidth/2, screenHeight/2));
+        absolute = absolute.add(new Vector2D((double)screenWidth/2, (double)screenHeight/2));
         return absolute;
     }
 
@@ -121,6 +118,12 @@ public class GamePanel extends JPanel implements KeyListener {
             BufferedImage image = abstractGameObject.getImage(0);
             Vector2D imageDimension = new Vector2D(image.getWidth(), image.getHeight()).scalarMul(0.5);
             Vector2D objectPosition = abstractGameObject.getPosition();
+            if(abstractGameObject.getType() == GameObjectType.STATIC){
+                StaticGameObject go = (StaticGameObject) abstractGameObject;
+                if(go.clingToPosition() != null){
+                    objectPosition = new Vector2D(referencePosition.x, objectPosition.y);
+                }
+            }
             BoundingBox bb = abstractGameObject.getHitBox();
             if(bb != null){
                 double width = bb.upperRight.x - bb.lowerLeft.x;

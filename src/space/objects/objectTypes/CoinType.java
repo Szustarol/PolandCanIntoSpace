@@ -19,8 +19,8 @@ public enum CoinType {
             case BRONZE -> 10;
             case SILVER -> 50;
             case GOLD -> 250;
-            case BLACK -> 1000;
-            case WHITE -> 2500;
+            case BLACK -> 500;
+            case WHITE -> 1000;
         };
     }
 

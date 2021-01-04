@@ -8,6 +8,7 @@ import space.status.Map;
 
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
+import java.util.Vector;
 
 public abstract class AbstractGameObject implements Comparable<AbstractGameObject>{
 
@@ -86,6 +87,10 @@ public abstract class AbstractGameObject implements Comparable<AbstractGameObjec
         );
     }
 
+    public GameObjectType getType(){
+        return gameObjectType;
+    }
+
     public abstract void interact(AbstractGameObject another);
 
     public int compareTo(AbstractGameObject another){
@@ -96,4 +101,7 @@ public abstract class AbstractGameObject implements Comparable<AbstractGameObjec
         return null;
     }
 
+    public Vector2D getVelocity(){
+        return new Vector2D(velocity);
+    }
 }

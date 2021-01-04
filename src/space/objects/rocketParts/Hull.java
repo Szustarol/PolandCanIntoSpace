@@ -23,10 +23,10 @@ public class Hull extends AbstractRocketPart{
             700,
             550
     };
-    public static final double [] hull_upgrade_costs = {
-            200,
-            1000,
-            1200,
+    public static final double [] upgrade_costs = {
+            2000,
+            5000,
+            15000,
             -1
     };
 
@@ -36,7 +36,7 @@ public class Hull extends AbstractRocketPart{
         loadPath = hull_data_path[hullLevel];
         weight = hull_weights[hullLevel];
         health = hull_hitpoints[hullLevel];
-        nextPrice = hull_upgrade_costs[hullLevel];
+        nextPrice = upgrade_costs[hullLevel];
     }
 
 

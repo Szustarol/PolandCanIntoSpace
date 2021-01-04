@@ -24,10 +24,10 @@ public class Nose extends  AbstractRocketPart{
             80
     };
     public static final double [] upgrade_costs = {
-            100,
-            500,
             1000,
-            2000,
+            7000,
+            25000,
+            50000,
             -1
     };
 

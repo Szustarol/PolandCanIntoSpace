@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class UpgradesPanel extends JPanel {
-    private final GameData gameData;
+    private GameData gameData;
     JLabel [] upgradeLabels;
     JLabel [] costLabels;
     JButton [] upgradeButtons;
@@ -17,6 +17,13 @@ public class UpgradesPanel extends JPanel {
 
     public UpgradesPanel(GameData gameData){
         this.gameData = gameData;
+        genVisual();
+        genLayout();
+    }
+
+    public void reset(GameData gameData){
+        this.gameData = gameData;
+        removeAll();
         genVisual();
         genLayout();
     }
@@ -44,8 +51,8 @@ public class UpgradesPanel extends JPanel {
     }
 
     private void updateCosts(){
-        setCost(0, Hull.hull_upgrade_costs[gameData.hullLevel]);
-        setCost(1, Engine.engine_upgrade_costs[gameData.engineLevel]);
+        setCost(0, Hull.upgrade_costs[gameData.hullLevel]);
+        setCost(1, Engine.upgrade_costs[gameData.engineLevel]);
         setCost(2, Fins.upgrade_costs[gameData.finsLevel]);
         setCost(3, Nose.upgrade_costs[gameData.noseLevel]);
         setCost(4, FuelTank.upgrade_costs[gameData.tankLevel]);
@@ -53,6 +60,13 @@ public class UpgradesPanel extends JPanel {
     }
 
     private void upgradeClicked(String upgradeName){
+        switch (upgradeName) {
+            case "hull" -> gameData.money -= Hull.upgrade_costs[gameData.hullLevel];
+            case "engine" -> gameData.money -= Engine.upgrade_costs[gameData.engineLevel];
+            case "fins" -> gameData.money -= Fins.upgrade_costs[gameData.finsLevel];
+            case "nose" -> gameData.money -= Nose.upgrade_costs[gameData.noseLevel];
+            case "tank" -> gameData.money -= FuelTank.upgrade_costs[gameData.tankLevel];
+        }
         switch (upgradeName) {
             case "hull" -> gameData.hullLevel++;
             case "engine" -> gameData.engineLevel++;
@@ -85,7 +99,6 @@ public class UpgradesPanel extends JPanel {
             upgradeButtons[idx].setFocusable(false);
             costLabels[idx] = new JLabel();
             upgradeLabels[idx].setVisible(true); upgradeButtons[idx].setVisible(true); costLabels[idx].setVisible(true);
-            final int handlerIdx = idx;
             upgradeButtons[idx].addActionListener(e -> upgradeClicked(upgradeName));
 
             idx++;

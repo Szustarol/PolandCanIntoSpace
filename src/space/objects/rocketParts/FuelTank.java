@@ -25,7 +25,7 @@ public class FuelTank{
     }
 
     public static double [] upgrade_costs = {
-        100, 500, 1500, 20000, -1
+        1000, 5000, 25000, 40000, -1
     };
 
     public FuelTank(int tankLevel){
