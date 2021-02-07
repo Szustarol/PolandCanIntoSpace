@@ -124,15 +124,15 @@ public class GamePanel extends JPanel implements KeyListener {
                     objectPosition = new Vector2D(referencePosition.x, objectPosition.y);
                 }
             }
-            BoundingBox bb = abstractGameObject.getHitBox();
-            if(bb != null){
-                double width = bb.upperRight.x - bb.lowerLeft.x;
-                double height = bb.upperRight.y - bb.lowerLeft.y;
-                Vector2D cd = new Vector2D(bb.lowerLeft.x, bb.upperRight.y);
-                cd = transformCoordinates(referencePosition, runner.targetPositionMapping(cd));
-                graphics.setColor(Color.red);
-                graphics.drawRect((int)cd.x, (int)cd.y, (int)width, (int)height);
-            }
+//            BoundingBox bb = abstractGameObject.getHitBox();
+//            if(bb != null){
+//                double width = bb.upperRight.x - bb.lowerLeft.x;
+//                double height = bb.upperRight.y - bb.lowerLeft.y;
+//                Vector2D cd = new Vector2D(bb.lowerLeft.x, bb.upperRight.y);
+//                cd = transformCoordinates(referencePosition, runner.targetPositionMapping(cd));
+//                graphics.setColor(Color.red);
+//                graphics.drawRect((int)cd.x, (int)cd.y, (int)width, (int)height);
+//            }
             if(!runner.targetPositionMapping(objectPosition).equals(objectPosition)){
                 //draw two instances
                 Vector2D position2 = transformCoordinates(referencePosition, runner.targetPositionMapping(objectPosition));
